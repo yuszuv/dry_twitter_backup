@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'dry-monads'
+gem 'dry-files'
+gem 'dry-cli'
+gem 'dry-transformer'
+gem 'twitter'
+gem 'json'
+gem 'byebug'
+gem 'dotenv'
