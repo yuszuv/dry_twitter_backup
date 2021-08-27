@@ -1,11 +1,5 @@
 #!/usr/bin/env ruby
 
-# simple script to backup all my twitter followings and followers, so that I now can get rid of all
-# the stuff that steals my attention ... and FOMO make me to do at least one single backup.
-# ... And the best of all ... monads, dry-monaads, DRY-MONADS :)
-# Jan jan@sternprodukt.de
-# Licence: MIT
-
 require 'rubygems'
 require 'bundler/setup'
 
@@ -54,7 +48,6 @@ module TwitterBackup
     end
   end
 
-  # create your own local registry for transformation functions
   module Functions
     extend Dry::Transformer::Registry
 
