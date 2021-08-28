@@ -96,7 +96,7 @@ module TwitterBackup
           f = Dry::Files.new
 
           writer = f.method(:write)
-          path   = f.expand_path( "./backup.json", __dir__)
+          path   = f.expand_path( "./backup_#{Time.now.strftime("%Y%m%d%H%M")}.json", __dir__)
           output = JSON.pretty_generate(blob)
 
           writer.(path, output)
