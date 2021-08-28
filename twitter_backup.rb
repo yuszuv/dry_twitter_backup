@@ -28,10 +28,12 @@ module TwitterBackup
 
       include Dry::Effects::Handler.State(:fetching_data)
       include Dry::Effects.State(:fetching_data)
+
       include Dry::Effects::Handler.State(:writing_data)
       include Dry::Effects.State(:writing_data)
-      include Dry::Effects.Defer
+
       include Dry::Effects::Handler.Defer
+      include Dry::Effects.Defer
 
       def call
         # dry-effects to the rescue: printing dots while waiting for api request to finish
@@ -45,7 +47,7 @@ module TwitterBackup
             end
           end
 
-          defer { print_dots(is_fetching) }
+          defer { print_dots while is_fetching }
 
           wait(result).tap { puts ' done' }
         end
@@ -60,7 +62,7 @@ module TwitterBackup
             end
           end
 
-          defer { print_dots(is_writing) }
+          defer { print_dots while is_writing }
 
           wait(result).tap { puts ' done' }
         end
@@ -70,8 +72,9 @@ module TwitterBackup
 
       private
 
-      def print_dots(state)
-        while state do sleep 0.1 and print '.' end
+      def print_dots
+        sleep 0.1
+        print '.'
       end
 
       def fetch_data
@@ -86,9 +89,7 @@ module TwitterBackup
           t(:map_array,
             t(-> { _1.to_hash })
               .>>(t(:symbolize_keys))
-              .>>(t(:accept_keys, [:id, :id_str, :name, :screen_name]))
-           )
-         )
+              .>>(t(:accept_keys, [:id, :id_str, :name, :screen_name]))))
       end
 
       def write_to_file(blob)
